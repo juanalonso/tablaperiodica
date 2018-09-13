@@ -46,18 +46,6 @@
                 border-bottom: 10px solid transparent;
                 border-left: 16px solid #3c3c3c;
             }
-            .btn-play:hover {
-                cursor: pointer;
-                border-color: #666;
-            }
-
-            .btn-play:hover:after {
-                border-left-color: #666;
-            }
-
-            .btn-play:active:after {
-                border-left-color: #000;
-            }
 
             .btn-play.playing:before, .btn-play.playing:after {
                 width: 9px;
@@ -73,14 +61,6 @@
 
             .btn-play.playing:after {
                 left: 43px;
-            }
-
-            .btn-play.playing:hover:before, .btn-play.playing:hover:after {
-                background-color: #666;
-            }
-
-            .btn-play.playing:active:before, .btn-play.playing:active:after {
-                background-color: #000;
             }
 
         </style>
@@ -125,8 +105,8 @@ foreach ($songArray as $song) {
                         </a>
                     </div>
                     <div class="tile-content">
-                            <p class="tile-title"><?= implode(", ", $artistArray) ?></p>
-                            <p class="tile-subtitle text-gray"><?= $song["name"] ?></p>
+                        <p class="tile-title"><?= implode(", ", $artistArray) ?></p>
+                        <p class="tile-subtitle text-gray"><?= $song["name"] ?></p>
                     </div>
                     <div class="btn-play">
                         <audio class="js-player" src="<?= $song["preview"] ?>"></audio>
