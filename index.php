@@ -1,4 +1,4 @@
-<?php 
+<?php
 
   include("config/config.php");
 
@@ -10,17 +10,79 @@
 
   $stats = array();
 
-?>  
+?>
 
 <!DOCTYPE html>
 <html lang="es">
     <head>
         <title>Tabla Periódica</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-      
+
         <style>
             .card {margin-bottom: 0.5rem;}
+            .btn-play {
+                margin: 9px;
+                margin-top: -23px;
+                width: 30px;
+                height: 30px;
+                float: left;
+                border-radius: 50%;
+                border: 1px solid #3c3c3c;
+                user-select: none;
+                -webkit-user-select: none;
+            }
+            .btn-play:after {
+                content: ' ';
+                position: relative;
+                display: block;
+                width: 0px;
+                height: 0px;
+                margin-left: 50%;
+                margin-top: 50%;
+                left: -6px;
+                top: -10px;
+                border-top: 10px solid transparent;
+                border-bottom: 10px solid transparent;
+                border-left: 16px solid #3c3c3c;
+            }
+            .btn-play:hover {
+                cursor: pointer;
+                border-color: #666;
+            }
+
+            .btn-play:hover:after {
+                border-left-color: #666;
+            }
+
+            .btn-play:active:after {
+                border-left-color: #000;
+            }
+
+            .btn-play.playing:before, .btn-play.playing:after {
+                width: 9px;
+                height: 36px;
+                background-color: #3c3c3c;
+                position: absolute;
+                content: "";
+                top: 22px;
+                left: 27px;
+                border: 0;
+                margin: 0;
+            }
+
+            .btn-play.playing:after {
+                left: 43px;
+            }
+
+            .btn-play.playing:hover:before, .btn-play.playing:hover:after {
+                background-color: #666;
+            }
+
+            .btn-play.playing:active:before, .btn-play.playing:active:after {
+                background-color: #000;
+            }
+
         </style>
     </head>
     <body class="bg-gray">
@@ -38,10 +100,9 @@
 
   $songArray = getSongList($songTitle, $accessToken);
 
-  $stats[$songTitle] = count($songArray);  
+  $stats[$songTitle] = count($songArray);
 
-
-?>        
+?>
             <div class="column col-12">
                 <h2><?= ($key+1), " - ", ucfirst(mb_strtolower($songTitle)) ?><span class="badge" data-badge="<?= count($songArray) ?>"></span></h2>
             </div>
@@ -59,11 +120,16 @@ foreach ($songArray as $song) {
                 <div class="card-body">
                   <div class="tile tile-centered">
                     <div class="tile-icon">
-                      <a href="<?= $song["url"] ?>" target="blank"><img src="<?= $song["image"] ?>" class="icon icon-file centered" width="48" alt="<?= $song["name"] ?>"/></a>
+                        <a href="<?= $song["url"] ?>" target="blank">
+                            <img src="<?= $song["image"] ?>" class="icon icon-file centered" width="48" alt="<?= $song["name"] ?>"/>
+                        </a>
                     </div>
                     <div class="tile-content">
-                        <p class="tile-title"><?= implode(", ", $artistArray) ?></p>
-                        <p class="tile-subtitle text-gray"><?= $song["name"] ?></p>
+                            <p class="tile-title"><?= implode(", ", $artistArray) ?></p>
+                            <p class="tile-subtitle text-gray"><?= $song["name"] ?></p>
+                    </div>
+                    <div class="btn-play">
+                        <audio class="js-player" src="<?= $song["preview"] ?>"></audio>
                     </div>
                   </div>
                 </div>
@@ -84,9 +150,26 @@ foreach ($stats as $name => $count) {
 
 ?>
 
-
           </div>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+
+                let playButtons = document.getElementsByClassName('btn-play');
+                [].forEach.call(playButtons, activateButtons);
+
+                function activateButtons(button){
+                    button.addEventListener('click', function(){
+                        if (button.classList.contains("playing")){
+                            button.querySelector('audio').pause();
+                        } else {
+                            button.querySelector('audio').play();
+                        }
+                        button.classList.toggle('playing');
+                    })
+                }
+            });
+        </script>
     </body>
 </html>
 
@@ -99,8 +182,8 @@ function getToken($clientId, $clientSecret){
     curl_setopt($ch, CURLOPT_URL,            'https://accounts.spotify.com/api/token' );
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
     curl_setopt($ch, CURLOPT_POST,           1 );
-    curl_setopt($ch, CURLOPT_POSTFIELDS,     'grant_type=client_credentials' ); 
-    curl_setopt($ch, CURLOPT_HTTPHEADER,     array('Authorization: Basic '.base64_encode($clientId.':'.$clientSecret))); 
+    curl_setopt($ch, CURLOPT_POSTFIELDS,     'grant_type=client_credentials' );
+    curl_setopt($ch, CURLOPT_HTTPHEADER,     array('Authorization: Basic '.base64_encode($clientId.':'.$clientSecret)));
 
     $result=curl_exec($ch);
     $json = json_decode($result, true);
@@ -128,7 +211,7 @@ function getSongList($songTitle, $accessToken) {
         $pageCount++;
         //print_r($results);
         //break;
-    
+
     } while (isset($json["tracks"]["next"]) && $pageCount < 100);
 
     $trackList = array();
@@ -143,11 +226,11 @@ function getSongList($songTitle, $accessToken) {
         if (strtolower($track["name"])!==strtolower($songTitle)) {
             continue;
         }
-
         $trackList[$key]["artists"] = $artistList;
         $trackList[$key]["url"] = $track["external_urls"]["spotify"];
         $trackList[$key]["name"] = $track["album"]["name"];
         $trackList[$key]["image"] = $track["album"]["images"][2]["url"];
+        $trackList[$key]["preview"] = $track["preview_url"];
     }
 
     //print_r($trackList);
@@ -164,9 +247,9 @@ function curlCall($apiEndpoint, $accessToken){
     curl_setopt($ch, CURLOPT_URL, $apiEndpoint);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
     curl_setopt($ch, CURLOPT_HTTPHEADER,
-                  array('Accept: application/json', 
-                        'Content-Type: application/json', 
-                        'Authorization: Bearer '.$accessToken)); 
+                  array('Accept: application/json',
+                        'Content-Type: application/json',
+                        'Authorization: Bearer '.$accessToken));
 
     $result=curl_exec($ch);
     $json = json_decode($result, true);
