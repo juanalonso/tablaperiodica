@@ -95,7 +95,7 @@ foreach ($songArray as $song) {
         $artistArray[] =  $artist;
     }
 ?>
-            <div class="column col-2 col-xl-4 col-md-6 col-sm-12">
+            <div class="column col-3 col-xl-4 col-md-6 col-sm-12">
               <div class="card">
                 <div class="card-body">
                   <div class="tile tile-centered">
