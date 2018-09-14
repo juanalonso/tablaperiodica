@@ -7,7 +7,7 @@
   $accessToken = getToken($clientId, $clientSecret);
 
   $songTitleList = "Hidrógeno,Helio,Litio,Berilio,Boro,Carbono,Nitrógeno,Oxígeno,Flúor,Neón,Sodio,Magnesio,Aluminio,Silicio,Fósforo,Azufre,Cloro,Argón,Potasio,Calcio,Escandio,Titanio,Vanadio,Cromo,Manganeso,Hierro,Cobalto,Níquel,Cobre,Zinc,Galio,Germanio,Arsénico,Selenio,Bromo,Kriptón,Rubidio,Estroncio,Itrio,Circonio,Niobio,Molibdeno,Tecnecio,Rutenio,Rodio,Paladio,Plata,Cadmio,Indio,Estaño,Antimonio,Telurio,Yodo,Xenón,Cesio,Bario,Lantano,Cerio,Praseodimio,Neodimio,Prometio,Samario,Europio,Gadolinio,Terbio,Disprosio,Holmio,Erbio,Tulio,Iterbio,Lutecio,Hafnio,Tántalo,Wolframio,Renio,Osmio,Iridio,Platino,Oro,Mercurio,Talio,Plomo,Bismuto,Polonio,Astato,Radón,Francio,Radio,Actinio,Torio,Protactinio,Uranio,Neptunio,Plutonio,Americio,Curio,Berkelio,Californio,Einstenio,Fermio,Mendelevio,Nobelio,Lawrencio,Rutherfordio,Dubnio,Seaborgio,Bohrio,Hasio,Meitnerio,Darmstatio,Roentgenio,Copernicio,Nihonio,Flerovio,Moscovio,Livermorio,Teneso,Oganesón";
-  //$songTitleList = "Hidrógeno,Helio,Litio";
+  $songTitleList = "Hidrógeno,Helio,Litio";
   $songTitleArray = explode(",",$songTitleList);
 
   $stats = array();
@@ -29,6 +29,7 @@
         <meta property="og:type"         content="article" />
         <meta property="og:url"          content="http://neuronasmuertas.com/tablaperiodica" />
         <meta property="og:site_name"    content="Neuronas muertas" />
+        <meta property="og:image"        content="http://neuronasmuertas.com/tablaperiodica/img/card.png">
         <meta property="og:description"  content="Lista de canciones de Spotify que se llaman exactamente igual que un elemento químico" />
         <meta name="twitter:card"        content="summary">
         <meta name="twitter:site"        content="@kokuma">
