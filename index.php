@@ -83,8 +83,9 @@ foreach ($stats as $name => $count) {
 */
 
 ?>
-
-
+          </div>
+          <div class="grid-lg">
+            <p>Desarrollado por <a href="https://twitter.com/kokuma" target="_blank">kokuma</a>, con ayuda de <a href="https://twitter.com/erikiva" target="_blank">erikiva</a>, a partir de un tuit de <a href="https://twitter.com/subetealanutria" target="_blank">subetealanutria</a>.</p>
           </div>
         </div>
     </body>
