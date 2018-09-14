@@ -21,47 +21,10 @@
 
         <style>
             .card {margin-bottom: 0.5rem;}
-            .btn-play {
-                margin: 9px;
-                margin-top: -23px;
-                width: 30px;
-                height: 30px;
-                float: left;
-                border-radius: 50%;
-                border: 1px solid #3c3c3c;
-                user-select: none;
-                -webkit-user-select: none;
-            }
-            .btn-play:after {
-                content: ' ';
-                position: relative;
-                display: block;
-                width: 0px;
-                height: 0px;
-                margin-left: 50%;
-                margin-top: 50%;
-                left: -6px;
-                top: -10px;
-                border-top: 10px solid transparent;
-                border-bottom: 10px solid transparent;
-                border-left: 16px solid #3c3c3c;
-            }
-
-            .btn-play.playing:before, .btn-play.playing:after {
-                width: 9px;
-                height: 36px;
-                background-color: #3c3c3c;
-                position: absolute;
-                content: "";
-                top: 22px;
-                left: 27px;
-                border: 0;
-                margin: 0;
-            }
-
-            .btn-play.playing:after {
-                left: 43px;
-            }
+            .card .tile.tile-centered .tile-content{width: 80%;}
+            .btn-play {float:right;}
+            .btn-play:before {content: "  >"; font-size: 16px; font-weight: bold; color: #666; padding: 5px 7px; border: 2px solid #666; border-radius: 50%;}
+            .btn-play.playing:before {content: "||";}
 
         </style>
     </head>
