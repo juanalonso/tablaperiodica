@@ -42,7 +42,7 @@
         <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
         <style>
             .card {margin-bottom: 0.5rem;}
-            .card .tile.tile-centered .tile-content{width: 80%;}
+            .card .tile.tile-centered .tile-content{width: 65%;}
             .card .card-body {padding: .5rem;}
             .card .card-body:last-child {padding-bottom: .5rem;}
             .btn-play {float:right; background-image: url("img/play_normal.png"); background-size: 48px; width: 48px; height: 48px;}
