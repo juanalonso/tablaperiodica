@@ -43,15 +43,16 @@
         <style>
             .card {margin-bottom: 0.5rem;}
             .card .tile.tile-centered .tile-content{width: 80%;}
-            .btn-play {float:right;}
-            .btn-play:before {content: "  >"; font-size: 16px; font-weight: bold; color: #666; padding: 5px 7px; border: 2px solid #666; border-radius: 50%;}
-            .btn-play.playing:before {content: "||";}
+            .card .card-body {padding: .5rem;}
+            .card .card-body:last-child {padding-bottom: .5rem;}
+            .btn-play {float:right; background-image: url("img/play_normal.png"); background-size: 48px; width: 48px; height: 48px;}
+            .btn-play.playing {background-image: url("img/pause_normal.png");}
 
         </style>
     </head>
     <body class="bg-gray">
         <div class="container">
-        <h1>Tabla Periódica v0.25</h1>
+        <h1>Tabla Periódica v0.3</h1>
         <div class="columns">
             <div class="column col-4 col-xl-6 col-md-8 col-sm-12 col-mx-auto">
                 <blockquote class="twitter-tweet" data-lang="en"><p lang="es" dir="ltr">Mi hermana y yo estamos buscando canciones con elementos de la tabla periódica. De momento tenemos (por orden de número atómico):<br>· Lithium de Evanescense.<br>· Titanium de David Guetta feat. Sia.<br>y<br>· Gold de Spandau Ballet.<br><br>¿Conocéis más?</p>&mdash; Súbete a la nutria (@subetealanutria) <a href="https://twitter.com/subetealanutria/status/1039225332547637248?ref_src=twsrc%5Etfw">September 10, 2018</a></blockquote>
@@ -90,7 +91,7 @@ foreach ($songArray as $song) {
                         <p class="tile-title"><?= implode(", ", $artistArray) ?></p>
                         <p class="tile-subtitle text-gray"><?= $song["name"] ?></p>
                     </div>
-                    <div class="btn-play">
+                    <div class="btn-play c-hand">
                         <audio class="js-player" src="<?= $song["preview"] ?>"></audio>
                     </div>
                   </div>
@@ -110,7 +111,7 @@ foreach ($stats as $name => $count) {
 ?>
           </div>
           <div class="grid-lg">
-            <p>Desarrollado por <a href="https://twitter.com/kokuma" target="_blank">kokuma</a>, con ayuda de <a href="https://twitter.com/erikiva" target="_blank">erikiva</a>, a partir de un tuit de <a href="https://twitter.com/subetealanutria" target="_blank">subetealanutria</a>.</p>
+            <p>Desarrollado por <a href="https://twitter.com/kokuma" target="_blank">kokuma</a> y <a href="https://twitter.com/erikiva" target="_blank">erikiva</a>, a partir de un tuit de <a href="https://twitter.com/subetealanutria" target="_blank">subetealanutria</a>.</p>
           </div>
         </div>
         <script>
