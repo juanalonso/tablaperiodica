@@ -122,10 +122,19 @@ foreach ($stats as $name => $count) {
 
                 function activateButtons(button){
                     button.addEventListener('click', function(){
+                        console.log('clicked');
                         if (button.classList.contains("playing")){
                             button.querySelector('audio').pause();
                         } else {
                             var audio = button.querySelector('audio');
+                            var others = document.querySelector('.btn-play.playing');
+
+                            console.log(others);
+                            if (others){
+                                others.click();
+                            [].forEach.call(others, function(button){
+                                button.click();
+                            })}
                             audio.play();
                             audio.onended = function() {
                                 button.classList.toggle('playing');
