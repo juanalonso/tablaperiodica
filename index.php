@@ -16,6 +16,7 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
+        <meta charset="utf-8"/>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125783247-1"></script>
         <script>
@@ -25,17 +26,17 @@
           gtag('config', 'UA-125783247-1');
         </script>
         <title>Tabla Periódica</title>
-        <meta property="og:title"        content="Tabla periódica" />
-        <meta property="og:type"         content="article" />
-        <meta property="og:url"          content="http://neuronasmuertas.com/tablaperiodica" />
-        <meta property="og:site_name"    content="Neuronas muertas" />
-        <meta property="og:image"        content="http://neuronasmuertas.com/tablaperiodica/img/card.png">
-        <meta property="og:description"  content="Lista de canciones de Spotify que se llaman exactamente igual que un elemento químico" />
-        <meta name="twitter:card"        content="summary">
-        <meta name="twitter:site"        content="@kokuma">
-        <meta name="twitter:title"       content="Tabla periódica">
+        <meta property="og:title" content="Tabla periódica">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="http://neuronasmuertas.com/tablaperiodica">
+        <meta property="og:site_name" content="Neuronas muertas">
+        <meta property="og:image" content="http://neuronasmuertas.com/tablaperiodica/img/card.png">
+        <meta property="og:description" content="Lista de canciones de Spotify que se llaman exactamente igual que un elemento químico">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@kokuma">
+        <meta name="twitter:title" content="Tabla periódica">
         <meta name="twitter:description" content="Lista de canciones de Spotify que se llaman exactamente igual que un elemento químico">
-        <meta name="twitter:creator"     content="@kokuma">
+        <meta name="twitter:creator" content="@kokuma">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
         <style>
