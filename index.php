@@ -125,7 +125,11 @@ foreach ($stats as $name => $count) {
                         if (button.classList.contains("playing")){
                             button.querySelector('audio').pause();
                         } else {
-                            button.querySelector('audio').play();
+                            var audio = button.querySelector('audio');
+                            audio.play();
+                            audio.onended = function() {
+                                button.classList.toggle('playing');
+                            }
                         }
                         button.classList.toggle('playing');
                     })
