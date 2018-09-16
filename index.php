@@ -1,7 +1,7 @@
-<?php 
-  
+<?php
+
   //https://picturepan2.github.io/spectre/
-  
+
   include("config/config.php");
 
   $accessToken = getToken($clientId, $clientSecret);
@@ -12,7 +12,8 @@
 
   $stats = array();
 
-?>  
+?>
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -41,6 +42,11 @@
         <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
         <style>
             .card {margin-bottom: 0.5rem;}
+            .card .tile.tile-centered .tile-content{width: 80%;}
+            .btn-play {float:right;}
+            .btn-play:before {content: "  >"; font-size: 16px; font-weight: bold; color: #666; padding: 5px 7px; border: 2px solid #666; border-radius: 50%;}
+            .btn-play.playing:before {content: "||";}
+
         </style>
     </head>
     <body class="bg-gray">
@@ -56,10 +62,9 @@
 
   $songArray = getSongList($songTitle, $accessToken);
 
-  $stats[$songTitle] = count($songArray);  
+  $stats[$songTitle] = count($songArray);
 
-
-?>        
+?>
             <div class="column col-12">
                 <h2><?= ($key+1), " - ", ucfirst(mb_strtolower($songTitle)) ?><span class="badge" data-badge="<?= count($songArray) ?>"></span></h2>
             </div>
@@ -72,16 +77,21 @@ foreach ($songArray as $song) {
         $artistArray[] =  $artist;
     }
 ?>
-            <div class="column col-2 col-xl-4 col-md-6 col-sm-12">
+            <div class="column col-3 col-xl-4 col-md-6 col-sm-12">
               <div class="card">
                 <div class="card-body">
                   <div class="tile tile-centered">
                     <div class="tile-icon">
-                      <a href="<?= $song["url"] ?>" target="blank"><img src="<?= $song["image"] ?>" class="icon icon-file centered" width="48" alt="<?= $song["name"] ?>"/></a>
+                        <a href="<?= $song["url"] ?>" target="blank">
+                            <img src="<?= $song["image"] ?>" class="icon icon-file centered" width="48" alt="<?= $song["name"] ?>"/>
+                        </a>
                     </div>
                     <div class="tile-content">
                         <p class="tile-title"><?= implode(", ", $artistArray) ?></p>
                         <p class="tile-subtitle text-gray"><?= $song["name"] ?></p>
+                    </div>
+                    <div class="btn-play">
+                        <audio class="js-player" src="<?= $song["preview"] ?>"></audio>
                     </div>
                   </div>
                 </div>
@@ -103,6 +113,24 @@ foreach ($stats as $name => $count) {
             <p>Desarrollado por <a href="https://twitter.com/kokuma" target="_blank">kokuma</a>, con ayuda de <a href="https://twitter.com/erikiva" target="_blank">erikiva</a>, a partir de un tuit de <a href="https://twitter.com/subetealanutria" target="_blank">subetealanutria</a>.</p>
           </div>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+
+                let playButtons = document.getElementsByClassName('btn-play');
+                [].forEach.call(playButtons, activateButtons);
+
+                function activateButtons(button){
+                    button.addEventListener('click', function(){
+                        if (button.classList.contains("playing")){
+                            button.querySelector('audio').pause();
+                        } else {
+                            button.querySelector('audio').play();
+                        }
+                        button.classList.toggle('playing');
+                    })
+                }
+            });
+        </script>
     </body>
 </html>
 
@@ -115,8 +143,8 @@ function getToken($clientId, $clientSecret){
     curl_setopt($ch, CURLOPT_URL,            'https://accounts.spotify.com/api/token' );
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
     curl_setopt($ch, CURLOPT_POST,           1 );
-    curl_setopt($ch, CURLOPT_POSTFIELDS,     'grant_type=client_credentials' ); 
-    curl_setopt($ch, CURLOPT_HTTPHEADER,     array('Authorization: Basic '.base64_encode($clientId.':'.$clientSecret))); 
+    curl_setopt($ch, CURLOPT_POSTFIELDS,     'grant_type=client_credentials' );
+    curl_setopt($ch, CURLOPT_HTTPHEADER,     array('Authorization: Basic '.base64_encode($clientId.':'.$clientSecret)));
 
     $result=curl_exec($ch);
     $json = json_decode($result, true);
@@ -144,7 +172,7 @@ function getSongList($songTitle, $accessToken) {
         $pageCount++;
         //print_r($results);
         //break;
-    
+
     } while (isset($json["tracks"]["next"]) && $pageCount < 100);
 
     $trackList = array();
@@ -159,11 +187,11 @@ function getSongList($songTitle, $accessToken) {
         if (strtolower($track["name"])!==strtolower($songTitle)) {
             continue;
         }
-
         $trackList[$key]["artists"] = $artistList;
         $trackList[$key]["url"] = $track["external_urls"]["spotify"];
         $trackList[$key]["name"] = $track["album"]["name"];
         $trackList[$key]["image"] = $track["album"]["images"][2]["url"];
+        $trackList[$key]["preview"] = $track["preview_url"];
     }
 
     //print_r($trackList);
@@ -180,9 +208,9 @@ function curlCall($apiEndpoint, $accessToken){
     curl_setopt($ch, CURLOPT_URL, $apiEndpoint);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
     curl_setopt($ch, CURLOPT_HTTPHEADER,
-                  array('Accept: application/json', 
-                        'Content-Type: application/json', 
-                        'Authorization: Bearer '.$accessToken)); 
+                  array('Accept: application/json',
+                        'Content-Type: application/json',
+                        'Authorization: Bearer '.$accessToken));
 
     $result=curl_exec($ch);
     $json = json_decode($result, true);
