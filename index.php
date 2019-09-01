@@ -7,7 +7,7 @@
   $accessToken = getToken($clientId, $clientSecret);
 
   $songTitleList = "Hidrógeno,Helio,Litio,Berilio,Boro,Carbono,Nitrógeno,Oxígeno,Flúor,Neón,Sodio,Magnesio,Aluminio,Silicio,Fósforo,Azufre,Cloro,Argón,Potasio,Calcio,Escandio,Titanio,Vanadio,Cromo,Manganeso,Hierro,Cobalto,Níquel,Cobre,Zinc,Galio,Germanio,Arsénico,Selenio,Bromo,Kriptón,Rubidio,Estroncio,Itrio,Circonio,Niobio,Molibdeno,Tecnecio,Rutenio,Rodio,Paladio,Plata,Cadmio,Indio,Estaño,Antimonio,Telurio,Yodo,Xenón,Cesio,Bario,Lantano,Cerio,Praseodimio,Neodimio,Prometio,Samario,Europio,Gadolinio,Terbio,Disprosio,Holmio,Erbio,Tulio,Iterbio,Lutecio,Hafnio,Tántalo,Wolframio,Renio,Osmio,Iridio,Platino,Oro,Mercurio,Talio,Plomo,Bismuto,Polonio,Astato,Radón,Francio,Radio,Actinio,Torio,Protactinio,Uranio,Neptunio,Plutonio,Americio,Curio,Berkelio,Californio,Einstenio,Fermio,Mendelevio,Nobelio,Lawrencio,Rutherfordio,Dubnio,Seaborgio,Bohrio,Hasio,Meitnerio,Darmstatio,Roentgenio,Copernicio,Nihonio,Flerovio,Moscovio,Livermorio,Teneso,Oganesón";
-  $songTitleList = "Hidrógeno,Helio,Litio";
+  //$songTitleList = "Neón";
   $songTitleArray = explode(",",$songTitleList);
 
   $stats = array();
@@ -52,7 +52,7 @@
     </head>
     <body class="bg-gray">
         <div class="container">
-        <h1>Tabla Periódica v0.3</h1>
+        <h1>Tabla Periódica v0.4</h1>
         <div class="columns">
             <div class="column col-4 col-xl-6 col-md-8 col-sm-12 col-mx-auto">
                 <blockquote class="twitter-tweet" data-lang="en"><p lang="es" dir="ltr">Mi hermana y yo estamos buscando canciones con elementos de la tabla periódica. De momento tenemos (por orden de número atómico):<br>· Lithium de Evanescense.<br>· Titanium de David Guetta feat. Sia.<br>y<br>· Gold de Spandau Ballet.<br><br>¿Conocéis más?</p>&mdash; Súbete a la nutria (@subetealanutria) <a href="https://twitter.com/subetealanutria/status/1039225332547637248?ref_src=twsrc%5Etfw">September 10, 2018</a></blockquote>
@@ -168,6 +168,7 @@ function getToken($clientId, $clientSecret){
 
 function getSongList($songTitle, $accessToken) {
 
+
     $apiEndpoint = "https://api.spotify.com/v1/search?q=".urlencode("track:$songTitle")."&type=track&limit=50";
 
     $results = array();
@@ -177,12 +178,22 @@ function getSongList($songTitle, $accessToken) {
 
         $json = curlCall($apiEndpoint, $accessToken);
         $apiEndpoint = $json["tracks"]["next"];
-        $results = array_merge($results, $json["tracks"]["items"]);
+        $rawResults = $json["tracks"]["items"];
+
+        $filteredResults = array();
+        foreach ($rawResults as $key => $track) {
+            if (strtolower($track["name"])===strtolower($songTitle)) {
+                $filteredResults[$key] = $track;
+            }            
+        }
+
+        $results = array_merge($results, $filteredResults);
         $pageCount++;
+        //echo "$pageCount: " . count($results) . "      ";
         //print_r($results);
         //break;
 
-    } while (isset($json["tracks"]["next"]) && $pageCount < 100);
+    } while (isset($json["tracks"]["next"]) && $pageCount < 150);
 
     $trackList = array();
 
@@ -193,9 +204,6 @@ function getSongList($songTitle, $accessToken) {
             $artistList[$artist["id"]] = $artist["name"];
         }
 
-        if (strtolower($track["name"])!==strtolower($songTitle)) {
-            continue;
-        }
         $trackList[$key]["artists"] = $artistList;
         $trackList[$key]["url"] = $track["external_urls"]["spotify"];
         $trackList[$key]["name"] = $track["album"]["name"];
